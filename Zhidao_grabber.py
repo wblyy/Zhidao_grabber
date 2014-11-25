@@ -27,7 +27,8 @@ proxy_dict=['http://113.11.198.163:2223/',
 
 for  url_index in xrange(85998341,0,-1):
 	page_url='http://zhidao.baidu.com/question/'+str(url_index)
-        req=requests.get(page_url,proxies={"http": random.choice(proxy_dict)})
+	related_IP=random.choice(proxy_dict)
+	    req=requests.get(page_url,proxies={"http": related_IP})
         req.encoding='gbk'
         msg=req.text
 	#msg.encoding ='utf-8'
@@ -35,6 +36,8 @@ for  url_index in xrange(85998341,0,-1):
 	content=re.findall('accuse="qContent">(.*?)</pre>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)#accuse="qContent">
 	used=re.findall('<span class="answer-title h2 grid">(.*?)</span>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
 	answerable=re.findall('id="answer-bar">(.*?)<i class="i-arrow-down">'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+	style=re.findall('<a class="f-aid" alog-alias="qb-class-info" href="(.*?)</a>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+	#<a class="f-aid" alog-alias="qb-class-info" href="  #</a>
 	#id="answer-bar"> #<i class="i-arrow-down">
         print 'title:',title[0]
         if content:
@@ -43,6 +46,8 @@ for  url_index in xrange(85998341,0,-1):
                 print 'used:',used[0]
         if answerable:
         		print 'answerable',answerable[0]
+        qid=url_index
+        dbV2.insertdata(qid, title[0], content[0], style[0], used[0],answerable[0],related_IP)
                 
 	#print 'title:',title[0],'content:',content[0],'used:',used[0]
 	#time.sleep(2)

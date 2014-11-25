@@ -37,25 +37,9 @@ class BaseDB(object):
 
 class MydbV2(BaseDB):
     def __init__(self):
-        BaseDB.__init__(self, database='douban_group')
+        BaseDB.__init__(self, database='zhidao_whole')
 
-    def insert_data(self, song, artist, language, producer, rights_owner):
-        self._execute(r'insert ignore cavca_zpk(song, artist, language, producer, rights_owner) '
-                      r'values (%s, %s, %s, %s, %s)', (song, artist, language, producer, rights_owner))
-    def insert_douban_data(self, word, time, topicId, groupId):
-        self._execute(r'insert ignore douban_group(word, time, topicId, groupId) '
-                      r'values (%s, %s, %s, %s)', (word, time, topicId, groupId))    
-
-    def insert_song(self, song, artist,album,top):
-        self._execute('update meta_test set lyricist = '+lyricist+',composer='+composer+',arrangement='+arrangement+' where song='+song+' and artist='+artist+';'
-                      , (song, artist, album,top))
-
-    def insert_lyric(self, lyricist,composer,arrangement,song,artist):
-		self._query_rows('update meta set lyricist = '+lyricist+',composer='+composer+',arrangement='+arrangement+' where song='+song+' and artist='+artist)
-					  
-    def get_id(self, song, artist):
-        return self._query_rows('select id from meta where song=%s and artist=%s', (song, artist))
-
-    def updat_song(self, lyricist, composer, arrangement, fxtime, song, artist):
-        self._execute('update meta set lyricist=%s, composer=%s, arrangement=%s,album_release=%s where song=%s and artist=%s', (lyricist, composer, arrangement, fxtime,song, artist))
-	
+    def insert_data(self, qid, title, content, style, is_used,is_answerable,related_IP):
+        self._execute(r'insert ignore zhidao_lib(qid, title, content, style, is_used,is_answerable,related_IP) '
+                      r'values (%s, %s, %s, %s, %s, %s, %s)', (qid, title, content, style, is_used,is_answerable,related_IP))
+    
