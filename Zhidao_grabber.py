@@ -9,6 +9,10 @@ from random import choice
 import random
 import requests
 from IPdb import IPdb
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 
 dbV2 = MydbV2()
 myIPdb=IPdb()
@@ -21,13 +25,22 @@ proxy_dict=['http://113.11.198.163:2223/',
 			'http://113.11.198.169:2223/',
 			]
 
-for  url_index in xrange(919637438114007139,0,-1):
+for  url_index in xrange(85998341,0,-1):
 	page_url='http://zhidao.baidu.com/question/'+str(url_index)
-	msg=requests.get(page_url,proxies={"http": random.choice(proxy_dict)}).text
-	title=re.findall('<title>(.*?)</title>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+        req=requests.get(page_url,proxies={"http": random.choice(proxy_dict)})
+        req.encoding='gbk'
+        msg=req.text
+	#msg.encoding ='utf-8'
+        title=re.findall('<title>(.*?)</title>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
 	content=re.findall('accuse="qContent">(.*?)</pre>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)#accuse="qContent">
 	used=re.findall('<span class="answer-title h2 grid">(.*?)</span>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-	print 'title:',title[0].decode('utf-8'),'content:',content[0].decode('utf-8'),'used:',used[0].decode('utf-8')
+        print 'title:',title[0]
+        if content:
+                print 'content:',content[0]
+        if used:
+                print 'used:',used[0]
+                
+	#print 'title:',title[0],'content:',content[0],'used:',used[0]
 	#time.sleep(2)
 	#<span class="answer-title h2 grid">
 
