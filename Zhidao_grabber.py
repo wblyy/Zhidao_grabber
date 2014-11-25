@@ -34,11 +34,15 @@ for  url_index in xrange(85998341,0,-1):
         title=re.findall('<title>(.*?)</title>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
 	content=re.findall('accuse="qContent">(.*?)</pre>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)#accuse="qContent">
 	used=re.findall('<span class="answer-title h2 grid">(.*?)</span>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+	answerable=re.findall('id="answer-bar">(.*?)<i class="i-arrow-down">'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+	#id="answer-bar"> #<i class="i-arrow-down">
         print 'title:',title[0]
         if content:
                 print 'content:',content[0]
         if used:
                 print 'used:',used[0]
+        if answerable:
+        		print 'answerable',answerable[0]
                 
 	#print 'title:',title[0],'content:',content[0],'used:',used[0]
 	#time.sleep(2)
