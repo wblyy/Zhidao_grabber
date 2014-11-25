@@ -26,9 +26,15 @@ proxy_dict=['http://113.11.198.163:2223/',
 			]
 
 for  url_index in xrange(85998341,0,-1):
+        is_answerable=0
+        is_used=0
+        content_data=''
+        title_data=''
+        style_data=''
+
 	page_url='http://zhidao.baidu.com/question/'+str(url_index)
 	related_IP=random.choice(proxy_dict)
-	    req=requests.get(page_url,proxies={"http": related_IP})
+        req=requests.get(page_url,proxies={"http": related_IP})
         req.encoding='gbk'
         msg=req.text
 	#msg.encoding ='utf-8'
@@ -40,14 +46,20 @@ for  url_index in xrange(85998341,0,-1):
 	#<a class="f-aid" alog-alias="qb-class-info" href="  #</a>
 	#id="answer-bar"> #<i class="i-arrow-down">
         print 'title:',title[0]
+        title_data=title[0]
         if content:
                 print 'content:',content[0]
+                content_data=content[0]
         if used:
                 print 'used:',used[0]
+                is_used=1
         if answerable:
-        		print 'answerable',answerable[0]
+                print 'answerable',answerable[0]
+                is_answerable=1
+        print style[0]
+        style_data=style[0]
         qid=url_index
-        dbV2.insertdata(qid, title[0], content[0], style[0], used[0],answerable[0],related_IP)
+        dbV2.insert_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
                 
 	#print 'title:',title[0],'content:',content[0],'used:',used[0]
 	#time.sleep(2)
