@@ -29,10 +29,11 @@ proxy_dict=['http://113.11.198.163:2223/',
 			'http://113.11.198.168:2223/',
 			'http://113.11.198.169:2223/',
 			]
-try:
+
         
 
-        for  url_index in xrange(85982121,0,-1):
+for  url_index in xrange(85956195,0,-1):
+        try:
                 is_answerable=0
                 is_used=0
                 content_data=''
@@ -53,7 +54,7 @@ try:
 	#<a class="f-aid" alog-alias="qb-class-info" href="  #</a>
 	#id="answer-bar"> #<i class="i-arrow-down">
                 print 'title:',title[0]
-               title_data=title[0]
+                title_data=title[0]
                 if content:
                         print 'content:',content[0]
                         content_data=content[0]
@@ -70,10 +71,10 @@ try:
                 if '百度知道 - 信息提示' not in title_data:
                         dbV2.insert_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
 
-except Exception, e:
-        systime=time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
-        logging.debug(e+systime)             
-	#print 'title:',title[0],'content:',content[0],'used:',used[0]
+        except Exception, e:
+                systime=time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
+                logging.debug(e)             
+                #print 'title:',title[0],'content:',content[0],'used:',used[0]
 	#time.sleep(2)
 	#<span class="answer-title h2 grid">
 
