@@ -25,7 +25,7 @@ proxy_dict=['http://113.11.198.163:2223/',
 			'http://113.11.198.169:2223/',
 			]
 
-for  url_index in xrange(85998341,0,-1):
+for  url_index in xrange(85995837,0,-1):
         is_answerable=0
         is_used=0
         content_data=''
@@ -56,10 +56,12 @@ for  url_index in xrange(85998341,0,-1):
         if answerable:
                 print 'answerable',answerable[0]
                 is_answerable=1
-        print style[0]
-        style_data=style[0]
+        if style:
+                print style[0]
+                style_data=style[0]
         qid=url_index
-        dbV2.insert_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
+        if '百度知道 - 信息提示' not in title_data:
+                dbV2.insert_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
                 
 	#print 'title:',title[0],'content:',content[0],'used:',used[0]
 	#time.sleep(2)
