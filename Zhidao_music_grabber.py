@@ -43,12 +43,13 @@ for  url_index in xrange(0,60000,20):
         	page_url='http://wapiknow.baidu.com/browse/99?lm=2&pn='+str(url_index)+'&mzl=browse_pp_'+str(url_index)
         	related_IP=random.choice(proxy_dict)   
                 req=requests.get(page_url,proxies={"http": related_IP})
-                req.encoding='gbk'
+                req.encoding='utf-8'
                 msg=req.text
                 questions=re.findall('/question/(.*?)</a>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
                 for question in questions:
-                        qid=question.split('.html')[0] 
-                        title_data=question.split('">')[1] 
+                        qid=question.split('.html')[0]
+                        print qid
+                        title_data=question.split('">')[1]
                         print  title_data                                   
                         content_data=''  
                         style_data='音乐'      
@@ -56,7 +57,7 @@ for  url_index in xrange(0,60000,20):
                         is_answerable=1
                         
                         
-                        dbV2.insert_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
+                        dbV2.insert_music_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
 
         except Exception, e:
                 systime=time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
