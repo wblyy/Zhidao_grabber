@@ -32,7 +32,7 @@ proxy_dict=['http://113.11.198.163:2223/',
 
         
 
-for  url_index in xrange(85787890,0,-1):
+for  url_index in xrange(0,60000,20):
         try:
                 is_answerable=0
                 is_used=0
@@ -40,36 +40,34 @@ for  url_index in xrange(85787890,0,-1):
                 title_data=''
                 style_data=''
 
-        	page_url='http://zhidao.baidu.com/question/'+str(url_index)
+        	page_url='http://wapiknow.baidu.com/browse/99?lm=2&pn='+str(url_index)+'&mzl=browse_pp_'+str(url_index)
         	related_IP=random.choice(proxy_dict)   
                 req=requests.get(page_url,proxies={"http": related_IP})
                 req.encoding='gbk'
                 msg=req.text
-	#msg.encoding ='utf-8'
-                title=re.findall('<title>(.*?)</title>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-        	content=re.findall('accuse="qContent">(.*?)</pre>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)#accuse="qContent">
-        	used=re.findall('<span class="answer-title h2 grid">(.*?)</span>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-        	answerable=re.findall('id="answer-bar">(.*?)<i class="i-arrow-down">'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-        	style=re.findall('<a class="f-aid" alog-alias="qb-class-info" href="(.*?)</a>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+                questions=re.findall('/question/(.*?)">'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+                for question in questions:
+                        question_url='http://wapiknow.baidu.com/question/'+str(question)
+                        req=requests.get(page_url,proxies={"http": related_IP})
+                        req.encoding='gbk'
+                        msg=req.text
+                        title=re.findall('<title>(.*?)</title>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+        	       content=re.findall('accuse="qContent">(.*?)</pre>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)#accuse="qContent">
+        	       #used=re.findall('<span class="answer-title h2 grid">(.*?)</span>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+                       #answerable=re.findall('id="answer-bar">(.*?)<i class="i-arrow-down">'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+        	       #style=re.findall('<a class="f-aid" alog-alias="qb-class-info" href="(.*?)</a>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
 	#<a class="f-aid" alog-alias="qb-class-info" href="  #</a>
 	#id="answer-bar"> #<i class="i-arrow-down">
                 print 'title:',title[0]
                 title_data=title[0]
                 if content:
                         print 'content:',content[0]
-                        content_data=content[0]
-                if used:
-                        print 'used:',used[0]
-                        is_used=1
-                if answerable:
-                        print 'answerable',answerable[0]
+                        content_data=content[0]        
+                        is_used=0
                         is_answerable=1
-                if style:
-                        print style[0]
-                        style_data=style[0]
-                qid=url_index
-                if '百度知道 - 信息提示' not in title_data:
-                        dbV2.insert_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
+                        style_data='音乐'
+                        qid=url_index
+                
 
         except Exception, e:
                 systime=time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))

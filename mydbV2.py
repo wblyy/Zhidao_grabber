@@ -42,4 +42,7 @@ class MydbV2(BaseDB):
     def insert_data(self, qid, title, content, style, is_used,is_answerable,related_IP):
         self._execute(r'insert ignore zhidao_lib(qid, title, content, style, is_used,is_answerable,related_IP) '
                       r'values (%s, %s, %s, %s, %s, %s, %s)', (qid, title, content, style, is_used,is_answerable,related_IP))
+    def insert_music_data(self, qid, title, content, style, is_used,is_answerable,related_IP):
+        self._execute(r'insert ignore zhidao_music_tag(qid, title, content, style, is_used,is_answerable,related_IP) '
+                      r'values (%s, %s, %s, %s, %s, %s, %s)', (qid, title, content, style, is_used,is_answerable,related_IP))
     
