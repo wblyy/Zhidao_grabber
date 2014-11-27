@@ -45,29 +45,18 @@ for  url_index in xrange(0,60000,20):
                 req=requests.get(page_url,proxies={"http": related_IP})
                 req.encoding='gbk'
                 msg=req.text
-                questions=re.findall('/question/(.*?)">'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
+                questions=re.findall('/question/(.*?)</a>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
                 for question in questions:
-                        question_url='http://wapiknow.baidu.com/question/'+str(question)
-                        req=requests.get(page_url,proxies={"http": related_IP})
-                        req.encoding='gbk'
-                        msg=req.text
-                        title=re.findall('<title>(.*?)</title>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-        	       content=re.findall('accuse="qContent">(.*?)</pre>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)#accuse="qContent">
-        	       #used=re.findall('<span class="answer-title h2 grid">(.*?)</span>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-                       #answerable=re.findall('id="answer-bar">(.*?)<i class="i-arrow-down">'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-        	       #style=re.findall('<a class="f-aid" alog-alias="qb-class-info" href="(.*?)</a>'.decode('utf-8').encode('utf-8'), msg, re.DOTALL)
-	#<a class="f-aid" alog-alias="qb-class-info" href="  #</a>
-	#id="answer-bar"> #<i class="i-arrow-down">
-                print 'title:',title[0]
-                title_data=title[0]
-                if content:
-                        print 'content:',content[0]
-                        content_data=content[0]        
+                        qid=question.split('.html')[0] 
+                        title_data=question.split('">')[1] 
+                        print  title_data                                   
+                        content_data=''  
+                        style_data='音乐'      
                         is_used=0
                         is_answerable=1
-                        style_data='音乐'
-                        qid=url_index
-                
+                        
+                        
+                        dbV2.insert_data(qid, title_data, content_data, style_data, is_used,is_answerable,related_IP)
 
         except Exception, e:
                 systime=time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
